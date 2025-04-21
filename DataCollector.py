@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 
 # Download 5 years of stock data for a particular ticker
-ticker = "AAPL"
+ticker = "NVDA"
 end_date = datetime.now()
 start_date = end_date - timedelta(days=5*365)
 stock_data = yf.download(ticker, start=start_date, end=end_date)
