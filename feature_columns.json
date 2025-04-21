@@ -1,0 +1,14 @@
+[
+    "DayOfWeek", 
+    "Month", 
+    "Year", 
+    "MA5", 
+    "RSI", 
+    "MA10", 
+    "MA20", 
+    "MACD", 
+    "Bollinger_Band_Upper", 
+    "Bollinger_Band_Lower", 
+    "Momentum", 
+    "Volume_Change"
+  ]

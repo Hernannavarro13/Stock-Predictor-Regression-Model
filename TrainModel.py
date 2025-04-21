@@ -25,7 +25,7 @@ def get_data(ticker):
 def prepare_data(df):
     # Create features using the Indicators module
     print("Data shape before feature engineering:", df.shape)
-    df = Indicators.create_features(df)
+    df = Indicators.add_technical_indicators(df)
     print("Data shape after feature engineering:", df.shape)
     
     # Ensure there are no NaN values
@@ -35,10 +35,17 @@ def prepare_data(df):
 
 # Step 3: Split data into features and target
 def split_data(df):
-    X = df[['DayOfWeek', 'Month', 'Year', 'MA5', 'RSI']]  # Using selected features
+    # Now using all 12 features
+    X = df[['DayOfWeek', 'Month', 'Year', 
+            'MA5', 'MA10', 'MA20',  # 3 moving averages
+            'RSI', 'MACD',           # RSI and MACD
+            'Bollinger_Band_Upper', 'Bollinger_Band_Lower',  # Bollinger Bands
+            'Momentum', 'Volume_Change']]  # Momentum and volume change
+    
     y = df['Close']  # Predicting Close price
     
     return X, y
+
 
 # Step 4: Train the model
 def train_model(X, y):

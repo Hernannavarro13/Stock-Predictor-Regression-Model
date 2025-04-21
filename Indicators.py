@@ -1,26 +1,47 @@
-import pandas as pd
+import ta
 
-def create_features(df):
-    # Check if 'Close' and 'Volume' columns exist
-    if 'Close' not in df.columns or 'Volume' not in df.columns:
-        raise ValueError("The input dataframe must contain 'Close' and 'Volume' columns.")
+def add_technical_indicators(df):
+    # Ensure 'Close' column is passed as a 1D Series
+    close = df['Close']  # 1D Series, not df[['Close']]
+    
+    # RSI
+    rsi = ta.momentum.RSIIndicator(close=close).rsi()
+    df['RSI'] = rsi
 
-    # Create date features
+    # Moving Averages
+    df['MA5'] = df['Close'].rolling(window=5).mean()
+    df['MA10'] = df['Close'].rolling(window=10).mean()
+    df['MA20'] = df['Close'].rolling(window=20).mean()
+
+    # Bollinger Bands
+    bb = ta.volatility.BollingerBands(close=close)
+    df['Bollinger_Band_Upper'] = bb.bollinger_hband()
+    df['Bollinger_Band_Lower'] = bb.bollinger_lband()
+
+    # Momentum - using Stochastic Oscillator
+    df['Momentum'] = ta.momentum.StochasticOscillator(
+        high=df['High'], low=df['Low'], close=close
+    ).stoch()
+
+    # Volume change percentage
+    df['Volume_Change'] = df['Volume'].pct_change()
+
+    # Date features
     df['DayOfWeek'] = df.index.dayofweek
     df['Month'] = df.index.month
     df['Year'] = df.index.year
-    
-    # Create basic technical indicators
-    df['MA5'] = df['Close'].rolling(window=5).mean()  # Moving Average
-    df['RSI'] = df['Close'].diff().where(df['Close'].diff() > 0, 0).rolling(window=7).mean()  # RSI with a shorter window
-    df['Volume_Change'] = df['Volume'].pct_change()  # Percentage change in volume
-    
-    # Drop NaN values generated during feature calculation
+
+    # Drop NaN values introduced by indicators
     df = df.dropna()
 
-    # Ensure there is enough data after dropping NaNs (adjust threshold if needed)
-    if df.shape[0] < 50:  # Minimum threshold of 50 rows
-        raise ValueError("Not enough data after feature engineering. Consider using more historical data.")
-
     return df
+
+
+
+
+
+
+
+
+
 
