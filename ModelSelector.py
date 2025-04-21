@@ -2,7 +2,7 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import xgboost as xgb
-import PredictionTarget as Target
+import TrainTestSplit as Train
 
 # Function to evaluate model performance
 def evaluate_model(model, X_train, X_test, y_train, y_test):
@@ -31,5 +31,5 @@ models = {
 results = {}
 for name, model in models.items():
     print(f"\nTraining {name}...")
-    trained_model, preds = evaluate_model(model, Target.X_train_scaled, Target.X_test_scaled, Target.y_train, Target.y_test)
+    trained_model, preds = evaluate_model(model, Train.X_train_scaled, Train.X_test_scaled, Train.y_train, Train.y_test)
     results[name] = {"model": trained_model, "predictions": preds}

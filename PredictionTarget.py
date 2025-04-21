@@ -1,6 +1,6 @@
 import Indicators as indicate
 # Create target variable - next day's closing price
-indicate.stock_data['Target'] = indicate.stock_data['Close'].shift(-1)
+indicate.stock_data.loc[:, 'Target'] = indicate.stock_data['Close'].shift(-1)
 
 # Remove the last row since it won't have a target
 stock_data = indicate.stock_data.dropna()
