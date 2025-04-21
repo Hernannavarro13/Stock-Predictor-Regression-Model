@@ -2,6 +2,7 @@ import yfinance as yf
 import Indicators  # Assuming you have your feature engineering functions here
 import joblib
 from sklearn.preprocessing import StandardScaler
+import json
 
 def get_data(ticker):
     # Fetch more data (e.g., last 100 days instead of just 7)
@@ -33,9 +34,14 @@ def predict_next_day(ticker):
     # Load the scaler used during training
     scaler = joblib.load('scaler.pkl')
     
-    # Scale the selected features
+    # Load feature columns
+    with open('feature_columns.json', 'r') as f:
+        expected_columns = json.load(f)
+
+    # Align the features with the expected order
+    features = features[expected_columns]
     features_scaled = scaler.transform(features)
-    
+
     # Make prediction
     prediction = model.predict(features_scaled)[0]
     

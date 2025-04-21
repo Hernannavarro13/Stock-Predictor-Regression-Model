@@ -59,6 +59,11 @@ def train_model(X, y):
     joblib.dump(scaler, 'scaler.pkl')  # Saving the scaler
     
     print("Model training complete. Model and scaler saved.")
+    
+    # Save the feature column order
+    import json
+    with open('feature_columns.json', 'w') as f:
+        json.dump(list(X.columns), f)
 
     return model, scaler
 
