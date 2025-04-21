@@ -15,7 +15,7 @@ def backtest_strategy(data, predictions, investment=10000):
         raise ValueError(f"Shape mismatch: data={len(backtest_data)}, predictions={len(predictions)}")
 
     # Use correct MultiIndex reference
-    close_col = ('Close', 'NVDA')
+    close_col = ('Close', stock.ticker)
     pred_col = ('Predicted_Close', '')  # Match MultiIndex structure
 
     # Add prediction column as part of MultiIndex
