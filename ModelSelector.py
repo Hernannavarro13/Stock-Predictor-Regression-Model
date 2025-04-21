@@ -15,7 +15,7 @@ def evaluate_model(model, X_train, X_test, y_train, y_test):
     
     print(f"MSE: {mse:.4f}")
     print(f"MAE: {mae:.4f}")
-    print(f"R²: {r2:.4f}")
+    print(f"RSquared: {r2:.4f}")
     
     return model, predictions
 
